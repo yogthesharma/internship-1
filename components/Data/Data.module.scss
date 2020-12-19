@@ -1,0 +1,29 @@
+.btnDiv {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  position: absolute;
+  bottom: 0;
+  border-top: 2px solid black;
+
+  button {
+    background-color: purple;
+    color: white;
+    border: none;
+    padding: 1.5rem 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:focus {
+      background-color: rgb(70, 0, 70);
+    }
+    &:hover {
+      background-color: rgb(255, 0, 255);
+    }
+
+    &:nth-child(2) {
+      border-left: 1px solid pink;
+      border-right: 1px solid pink;
+    }
+  }
+}

@@ -38,7 +38,7 @@ const order = ({ items }) => {
 };
 
 export async function getStaticProps() {
-  const fetchedItems = await Axios.get("http://localhost:3000/api/addItem");
+  const fetchedItems = await Axios.get(`http://localhost:${process.env.PORT||3000}/api/addItem`);
 
   return {
     props: {

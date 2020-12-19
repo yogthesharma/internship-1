@@ -36,22 +36,22 @@ const data = ({ sales }) => {
   );
 };
 
-export async function getStaticPaths() {
-  const usersRoutes = await Axios.get(
-    `http://localhost:${process.env.PORT || 3000}/api/auth/register`
-  );
-  console.log(usersRoutes.data);
-  const routes = usersRoutes.data.usernames.map((username) => {
-    return { params: { data: username } };
-  });
-  console.log(routes);
-  return {
-    paths: routes,
-    fallback: false,
-  };
-}
+// export async function getStaticPaths() {
+//   const usersRoutes = await Axios.get(
+//     `http://localhost:${process.env.PORT || 3000}/api/auth/register`
+//   );
+//   console.log(usersRoutes.data);
+//   const routes = usersRoutes.data.usernames.map((username) => {
+//     return { params: { data: username } };
+//   });
+//   console.log(routes);
+//   return {
+//     paths: routes,
+//     fallback: false,
+//   };
+// }
 
-export async function getStaticProps({ params }) {
+export async function getServerSideProps({ params }) {
   const userItemFetched = await Axios.post(
     `http://localhost:${process.env.PORT || 3000}/api/fetchUserItems`,
     { username: params.data }

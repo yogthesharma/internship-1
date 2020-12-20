@@ -52,8 +52,10 @@ const data = ({ sales }) => {
 // }
 
 export async function getServerSideProps({ params }) {
+  const port = process.env.PORT || 3000;
+
   const userItemFetched = await Axios.post(
-    `http://localhost:${process.env.PORT || 3000}/api/fetchUserItems`,
+    "http://localhost:" + port + "/api/fetchUserItems",
     { username: params.data }
   );
   const sales = userItemFetched.data;

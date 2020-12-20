@@ -38,7 +38,10 @@ const order = ({ items }) => {
 };
 
 export async function getServerSideProps() {
-  const fetchedItems = await Axios.get(`http://localhost:${process.env.PORT||3000}/api/addItem`);
+  const port = process.env.PORT || 3000;
+  const fetchedItems = await Axios.get(
+    "http://localhost:" + port + "/api/addItem"
+  );
 
   return {
     props: {

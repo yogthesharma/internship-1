@@ -8,10 +8,14 @@ const handler = nc()
     next();
   })
   .get(async (req, res) => {
-    await Items.find({}, (err, items) => {
-      if (err) console.log(err);
-      return res.json({ items });
-    });
+    try {
+      await Items.find({}, (err, items) => {
+        if (err) console.log(err);
+        return res.json({ items });
+      });
+    } catch (error) {
+      res.json({ error });
+    }
   })
   .post(async (req, res) => {
     const { item, price } = req.body;

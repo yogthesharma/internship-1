@@ -88,27 +88,14 @@ const Order = ({ items }) => {
     const sales = { date, item, qty, price, loginId: user.loginId };
 
     await Axios.patch("/api/auth/register", sales)
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+        return setStatus("Some Error Occured In Placing Order");
+      });
   };
-
-  // going to login page after signout this is authentication (remove this)
-  // useEffect(() => {
-  //   if (data && data.status) {
-  //     dispatch({
-  //       type: "ADD_USER",
-  //       payload: {
-  //         username: data.username,
-  //         loginId: data.loginId,
-  //       },
-  //     });
-  //   } else if (data && !data.username) {
-  //     dispatch({
-  //       type: "REMOVE_USER",
-  //     });
-  //     Router.replace("/login");
-  //   }
-  // }, [data]);
 
   // component did mount
   useEffect(() => {

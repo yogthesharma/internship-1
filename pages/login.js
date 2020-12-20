@@ -21,6 +21,9 @@ const login = () => {
           loginId: data.loginId,
         },
       });
+      if (data.username) {
+        return Router.replace("/order");
+      }
     }
   }, [data]);
 

@@ -11,15 +11,17 @@ const NewItem = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const addingObject = { item, price };
-    console.log(addingObject);
+    console.log();
     await Axios.post("/api/addItem", addingObject)
       .then((res) => {
         setItem("");
         setPrice("");
         console.log(res.data);
-        return;
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+      });
+    return;
   };
 
   return (

@@ -12,6 +12,10 @@ const Login = () => {
   // user
   const [data, { mutate }] = useUser();
 
+  // global states
+  const [loginState, setLoginState] = useState("");
+  const [registerState, setRegisterState] = useState("");
+
   // init states login
   const [loginIdLogin, setLoginIdLogin] = useState("");
   const [passwordLogin, setPasswordLogin] = useState("");
@@ -27,6 +31,7 @@ const Login = () => {
   //   handling submits
   // login
   const handleSubmitLogin = async (e) => {
+    setLoginState("Loading.....");
     e.preventDefault();
     if (!loginIdLogin || !passwordLogin) {
       return setErrStmtLogin("Please Fill All The Fields....");
@@ -102,6 +107,7 @@ const Login = () => {
           ) : null}
           <input type="submit" value="Login" />
         </form>
+        {loginState ? <h3>{loginState}</h3> : null}
       </div>
       <div className={styles.signupForm}>
         <form onSubmit={(e) => handleSubmitRegister(e)}>
@@ -136,6 +142,7 @@ const Login = () => {
           ) : null}
           <input type="submit" value="Register" />
         </form>
+        {registerState ? <h3>{registerState}</h3> : null}
       </div>
     </div>
   );

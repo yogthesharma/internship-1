@@ -69,9 +69,9 @@ const PieGraph = ({ sales }) => {
             },
           ],
         }}
-        width={100}
+        width={90}
         height={500}
-        options={{ maintainAspectRatio: false }}
+        options={{ responsive: true, maintainAspectRatio: false }}
       />
     </div>
   );

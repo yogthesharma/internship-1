@@ -11,20 +11,20 @@ const data = ({ sales }) => {
   const dispatch = useDispatch();
   const [data, { mutate }] = useUser();
 
-  useEffect(() => {
-    if (!data) {
-      return;
-      Router.replace("/login");
-    } else {
-      dispatch({
-        type: "ADD_USER",
-        payload: {
-          username: data.username,
-          loginId: data.loginId,
-        },
-      });
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (!data) {
+  //     return;
+  //     Router.replace("/login");
+  //   } else {
+  //     dispatch({
+  //       type: "ADD_USER",
+  //       payload: {
+  //         username: data.username,
+  //         loginId: data.loginId,
+  //       },
+  //     });
+  //   }
+  // }, [data]);
 
   return (
     <div>
@@ -36,28 +36,14 @@ const data = ({ sales }) => {
   );
 };
 
-// export async function getStaticPaths() {
-//   const usersRoutes = await Axios.get(
-//     `http://localhost:${process.env.PORT || 3000}/api/auth/register`
-//   );
-//   console.log(usersRoutes.data);
-//   const routes = usersRoutes.data.usernames.map((username) => {
-//     return { params: { data: username } };
-//   });
-//   console.log(routes);
-//   return {
-//     paths: routes,
-//     fallback: false,
-//   };
-// }
-
 export async function getServerSideProps({ params }) {
-  const port = process.env.PORT || 3000;
-
-  const userItemFetched = await Axios.post(
-    "http://localhost:" + port + "/api/fetchUserItems",
-    { username: params.data }
-  );
+  const dev = process.env.NODE_ENV === "development";
+  const server = dev
+    ? "http://localhost:3000"
+    : "https://internship-1-mi9sz8kcv.vercel.app";
+  const userItemFetched = await Axios.post(server + "/api/fetchUserItems", {
+    username: params.data,
+  });
   const sales = userItemFetched.data;
   return {
     props: {

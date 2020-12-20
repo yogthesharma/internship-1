@@ -17,42 +17,55 @@ const handler = nc()
     res.json({ usernames });
   })
   .post(async (req, res) => {
-    const { username, loginId, password } = req.body;
+    try {
+      const { username, loginId, password } = req.body;
 
-    if ((!username, !loginId, !password)) {
-      return res.json({ msg: "All Fields Are Required", errFlag: true });
-    }
+      if ((!username, !loginId, !password)) {
+        return res.json({ msg: "All Fields Are Required", errFlag: true });
+      }
 
-    const hashedPass = await genPass(password);
-    const hash = hashedPass.hash;
-
-    const user = await new User({
-      username,
-      loginId,
-      hash,
-    });
-
-    await user
-      .save()
-      .then(async (result) => {
-        const token = await generateToken(user);
-        res.setHeader(
-          "Set-Cookie",
-          cookie.serialize("auth-token", token, {
-            httpOnly: true,
-            path: "/",
-            secure: process.env.NODE_ENV === "production",
-          })
-        );
+      const userToCheckUsername = await User.findOne({ username: username });
+      const userToCheckLoginId = await User.findOne({ loginId: loginId });
+      if (userToCheckLoginId || userToCheckUsername) {
         return res.json({
-          username: result.username,
-          loginId: result.loginId,
-          errFlag: false,
+          msg: "User With Same Credentials Already Exists.",
+          errFlag: true,
         });
-      })
-      .catch((err) => {
-        return res.json({ err, errFlag: true });
+      }
+
+      const hashedPass = await genPass(password);
+      const hash = hashedPass.hash;
+
+      const user = await new User({
+        username,
+        loginId,
+        hash,
       });
+
+      await user
+        .save()
+        .then(async (result) => {
+          const token = await generateToken(user);
+          res.setHeader(
+            "Set-Cookie",
+            cookie.serialize("auth-token", token, {
+              httpOnly: true,
+              path: "/",
+              secure: process.env.NODE_ENV === "production",
+            })
+          );
+          return res.json({
+            username: result.username,
+            loginId: result.loginId,
+            errFlag: false,
+          });
+        })
+        .catch((err) => {
+          return res.json({ err, errFlag: true });
+        });
+    } catch (error) {
+      console.log(error);
+    }
   })
   .patch(async (req, res) => {
     let { loginId, price, item, date, qty } = req.body;

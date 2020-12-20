@@ -41,7 +41,7 @@ const Login = () => {
           Router.replace("/order");
           return;
         } else {
-          console.log(res.data.errFlag);
+          setErrStmtLogin(res.data.msg);
         }
       })
       .catch((err) => console.log(err));
@@ -68,13 +68,14 @@ const Login = () => {
     })
       .then(async (res) => {
         if (!res.data.errFlag) {
-          console.log(res.data);
           dispatch({
             type: "ADD_USER",
             payload: { username: res.data.username, loginId: res.data.loginId },
           });
           Router.replace("/order");
           return;
+        } else {
+          setErrStmtRegister(res.data.msg);
         }
       })
       .catch((err) => console.log(err));

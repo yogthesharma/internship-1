@@ -66,9 +66,10 @@ const LineGraph = ({ sales }) => {
             },
           ],
         }}
-        width={100}
+        width={90}
         height={500}
         options={{
+          responsive: true,
           maintainAspectRatio: false,
           scales: {
             yAxes: [

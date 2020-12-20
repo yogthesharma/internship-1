@@ -13,7 +13,7 @@ const order = ({ items }) => {
 
   useEffect(() => {
     if (!data) {
-      // return Router.replace("/login");
+      return Router.replace("/login");
       return;
     } else {
       console.log(data.loginId, data.username);
@@ -38,10 +38,11 @@ const order = ({ items }) => {
 };
 
 export async function getServerSideProps() {
-  const port = process.env.PORT || 3000;
-  const fetchedItems = await Axios.get(
-    "http://localhost:" + port + "/api/addItem"
-  );
+  const dev = process.env.NODE_ENV === "development";
+  const server = dev
+    ? "http://localhost:3000"
+    : "https://internship-1-mi9sz8kcv.vercel.app";
+  const fetchedItems = await Axios.get(server + "/api/addItem");
 
   return {
     props: {

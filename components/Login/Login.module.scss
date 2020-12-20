@@ -3,6 +3,13 @@
   height: 90.7vh;
   position: relative;
 
+  // media query for parent comp
+  @media only screen and (max-width: 600px) {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+
   .loginForm {
     position: absolute;
     width: 50%;
@@ -58,6 +65,15 @@
           background-color: #f64c72;
           color: white;
         }
+      }
+    }
+    // media query for parent comp
+    @media only screen and (max-width: 600px) {
+      position: relative;
+      width: 100%;
+      padding: 2rem;
+      form {
+        width: 80%;
       }
     }
   }
@@ -119,6 +135,16 @@
           background-color: #f64c72;
           color: white;
         }
+      }
+    }
+
+    // media query for parent comp
+    @media only screen and (max-width: 600px) {
+      position: relative;
+      width: 100%;
+      padding: 2rem;
+      form {
+        width: 80%;
       }
     }
   }

@@ -24,6 +24,17 @@
       letter-spacing: 0.085em;
       color: #ff3e69;
     }
+
+    // media query
+
+    @media only screen and (max-width: 600px) {
+      & {
+        width: 100%;
+      }
+      h1 {
+        font-size: 70px;
+      }
+    }
   }
 
   //   image column
@@ -34,5 +45,16 @@
     height: 100%;
     display: grid;
     place-items: center;
+
+    @media only screen and (max-width: 600px) {
+      & {
+        position: relative;
+        display: none;
+        background-color: orange;
+      }
+      img {
+        display: none;
+      }
+    }
   }
 }

@@ -31,5 +31,56 @@
         }
       }
     }
+    @media only screen and (max-width: 600px) {
+      display: none;
+    }
+  }
+
+  .hamburger {
+    display: none;
+    div {
+      background-color: white;
+      height: 3px;
+      width: 40px;
+    }
+
+    div:nth-child(2) {
+      margin: 7px 0;
+    }
+    @media only screen and (max-width: 600px) {
+      display: unset;
+    }
+  }
+
+  .sideToolBar {
+    position: absolute;
+    background-color: white;
+    width: 60%;
+    height: 100vh;
+    z-index: 3;
+    transform: translateX(-100%);
+    transition: all 0.3s ease;
+    ul {
+      list-style-type: none;
+
+      li {
+        display: block;
+        padding: 1rem 0;
+        border-bottom: 1px solid pink;
+        font-size: 20px;
+      }
+    }
+  }
+  .sideToolBarConf {
+    transform: translateX(0);
+  }
+
+  .removeNav {
+    display: none;
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.199);
+    z-index: 2;
   }
 }

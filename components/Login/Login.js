@@ -13,8 +13,8 @@ const Login = () => {
   const [data, { mutate }] = useUser();
 
   // global states
-  const [loginState, setLoginState] = useState("");
-  const [registerState, setRegisterState] = useState("");
+  const [loginState, setLoginState] = useState(false);
+  const [registerState, setRegisterState] = useState(false);
 
   // init states login
   const [loginIdLogin, setLoginIdLogin] = useState("");
@@ -31,9 +31,10 @@ const Login = () => {
   //   handling submits
   // login
   const handleSubmitLogin = async (e) => {
-    setLoginState("Loading.....");
+    setLoginState(true);
     e.preventDefault();
     if (!loginIdLogin || !passwordLogin) {
+      setLoginState(false);
       return setErrStmtLogin("Please Fill All The Fields....");
     }
     await Axios.post("/api/auth/login", { loginIdLogin, passwordLogin })
@@ -44,25 +45,32 @@ const Login = () => {
             payload: { username: res.data.username, loginId: res.data.loginId },
           });
           Router.replace("/order");
-          return;
+          return setLoginState(false);
         } else {
           setErrStmtLogin(res.data.msg);
+          return setLoginState(false);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        return setLoginState(false);
+      });
   };
 
   // register
   const handleSubmitRegister = async (e) => {
     e.preventDefault();
+    setRegisterState(true);
 
     if (!loginId || !password || !username || !confirmPassword) {
       setErrStmtRegister("Please Fill All The Fields....");
+      setRegisterState(false);
       return;
     }
     if (confirmPassword !== password) {
       console.log("Done");
       setErrStmtRegister("Passwords Do Not Match.....");
+      setRegisterState(false);
       return;
     }
 
@@ -78,13 +86,36 @@ const Login = () => {
             payload: { username: res.data.username, loginId: res.data.loginId },
           });
           Router.replace("/order");
+          setRegisterState(false);
           return;
         } else {
           setErrStmtRegister(res.data.msg);
+          setRegisterState(false);
         }
       })
       .catch((err) => console.log(err));
   };
+
+  useEffect(() => {
+    if (loginState == true) {
+      const submitBtnLogin = document.getElementById("submitBtnLogin");
+      submitBtnLogin.disabled = true;
+      submitBtnLogin.value = "Logging In";
+    } else {
+      const submitBtnLogin = document.getElementById("submitBtnLogin");
+      submitBtnLogin.disabled = false;
+      submitBtnLogin.value = "Log In";
+    }
+    if (registerState == true) {
+      const submitBtnRegister = document.getElementById("submitBtnRegister");
+      submitBtnRegister.disabled = true;
+      submitBtnRegister.value = "Registering";
+    } else {
+      const submitBtnRegister = document.getElementById("submitBtnRegister");
+      submitBtnRegister.disabled = false;
+      submitBtnRegister.value = "Register";
+    }
+  });
 
   return (
     <div className={styles.login}>
@@ -105,9 +136,8 @@ const Login = () => {
           {errStmtLogin ? (
             <p style={{ color: "red", textAlign: "center" }}>{errStmtLogin}</p>
           ) : null}
-          <input type="submit" value="Login" />
+          <input id="submitBtnLogin" type="submit" value="Login" />
         </form>
-        {loginState ? <h3>{loginState}</h3> : null}
       </div>
       <div className={styles.signupForm}>
         <form onSubmit={(e) => handleSubmitRegister(e)}>
@@ -140,9 +170,8 @@ const Login = () => {
               {errStmtRegister}
             </p>
           ) : null}
-          <input type="submit" value="Register" />
+          <input id="submitBtnRegister" type="submit" value="Register" />
         </form>
-        {registerState ? <h3>{registerState}</h3> : null}
       </div>
     </div>
   );

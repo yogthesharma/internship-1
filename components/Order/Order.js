@@ -12,6 +12,11 @@ const Order = ({ items }) => {
   // getting value from global state
   const user = useSelector((user) => user.user);
 
+  // loading options
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  // for options data
   const [optionsAll, setOptionsAll] = useState();
   const [options, setOptions] = useState([]);
 
@@ -83,6 +88,11 @@ const Order = ({ items }) => {
   // handling submit for the form
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!startDate || !item || !qty) {
+      return;
+    }
+    setLoading(true);
+
     const dateConvert = new Date(startDate);
     const date = dateConvert.toISOString();
     const sales = { date, item, qty, price, loginId: user.loginId };
@@ -90,6 +100,7 @@ const Order = ({ items }) => {
     await Axios.patch("/api/auth/register", sales)
       .then((res) => {
         console.log(res);
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
@@ -101,9 +112,27 @@ const Order = ({ items }) => {
   useEffect(() => {
     mainOptions();
   }, []);
+
   useEffect(() => {
     selectedItemPrice();
   }, [qty, item]);
+
+  useEffect(() => {
+    if (!startDate || !item || !qty) {
+      setError("Please Enter All The Fields");
+    } else {
+      setError("");
+    }
+    const submitBtn = document.getElementById("submitBtn");
+
+    if (loading == true) {
+      submitBtn.value = "Loading...";
+      submitBtn.disabled = true;
+    } else {
+      submitBtn.disabled = false;
+      submitBtn.value = "Place Order";
+    }
+  });
 
   return (
     <div className={styles.order}>
@@ -118,8 +147,6 @@ const Order = ({ items }) => {
             placeholder="Select Date"
             closeOnScroll={true}
             placeholderText="Select Date"
-
-            // dateFormat="Pp"
           />
           <Select
             makeAnimated
@@ -135,10 +162,14 @@ const Order = ({ items }) => {
             onChange={(e) => setQty(e.target.value)}
           />
           <div className={styles.calc}>
-            {price ? `Total Price Of Order: ₹${price}` : null}
+            {price && !error ? `Total Price Of Order: ₹${price}` : null}
           </div>
-
-          <input type="submit" value="Place Order" />
+          {error ? (
+            <p style={{ textAlign: "center", color: "red" }}>
+              <i>*****{error}*****</i>
+            </p>
+          ) : null}
+          <input type="submit" id="submitBtn" />
         </form>
       </div>
       <div className={styles.orderImage}>

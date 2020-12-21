@@ -26,8 +26,14 @@ const handler = nc()
 
     await itemToBeSave
       .save()
-      .then((item) => console.log(item))
-      .catch((err) => console.log(err));
+      .then((item) => {
+        console.log(item);
+        return res.json({ msg: "Item Saved", errFlag: false });
+      })
+      .catch((err) => {
+        console.log(err);
+        return res.json({ msg: "Item Saved", errFlag: false });
+      });
   });
 
 export default handler;

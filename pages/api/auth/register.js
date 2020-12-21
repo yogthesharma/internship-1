@@ -70,14 +70,15 @@ const handler = nc()
   .patch(async (req, res) => {
     let { loginId, price, item, date, qty } = req.body;
     let newQty = parseInt(qty);
-    const user = await User.findOneAndUpdate({ loginId })
+    const user = await User.findOne({ loginId })
       .then(async (user) => {
         user.sales.push({ price, item, date, newQty });
         await user.save();
-        res.status(201);
+        return res.status(201).json({ msg: "Order Placed" });
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err, "err");
+        return res.json({ msg: "Unable To Place Order" });
       });
   });
 

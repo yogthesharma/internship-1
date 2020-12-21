@@ -7,12 +7,13 @@ const LineGraph = ({ sales }) => {
   var arr = new Array();
 
   const gettingDistinctDate = async () => {
+    await sales.sales.sort((a, b) => new Date(a.date) - new Date(b.date));
+
     const setForDate = new Set();
     sales.sales.map((sale) => setForDate.add(sale.date));
     setDates([...setForDate]);
-    dates.sort((a, b) => {
-      return a < b ? -1 : a > b ? 1 : 0;
-    });
+
+    console.log(dates);
   };
 
   // counting number of sales at a given date

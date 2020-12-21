@@ -18,7 +18,7 @@ const handler = nc()
       const user = await User.findOne({ loginId: loginIdLogin });
       if (!user) {
         return res.json({
-          msg: "Unable To Find The Username. Try Signing In Instead",
+          msg: "Unable To Find The Username. Try Signing Up Instead",
           errFlag: true,
         });
       }
@@ -62,6 +62,10 @@ const handler = nc()
       );
     } catch (error) {
       console.log(error);
+      return res.json({
+        msg: "Some Error Occured",
+        errFlag: true,
+      });
     }
   });
 

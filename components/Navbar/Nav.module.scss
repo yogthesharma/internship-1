@@ -53,6 +53,7 @@
   }
 
   .sideToolBar {
+    display: none;
     position: absolute;
     background-color: white;
     width: 60%;
@@ -72,6 +73,7 @@
     }
   }
   .sideToolBarConf {
+    display: unset;
     transform: translateX(0);
   }
 

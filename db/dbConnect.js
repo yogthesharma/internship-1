@@ -4,7 +4,7 @@ const dbConnect = () => {
   if (mongoose.connections[0].readyState) {
     return console.log("Database Already Connected!!!!!");
   }
-  
+
   console.log(process.env.MONGO_URI);
   const db = mongoose.connect(
     process.env.MONGO_URI,
